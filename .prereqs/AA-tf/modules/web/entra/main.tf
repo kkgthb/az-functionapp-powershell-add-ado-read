@@ -22,6 +22,9 @@ resource "azuread_application" "func_app_entra_appreg" {
       type = "Scope"
     }
   }
+  api {
+    requested_access_token_version = 2
+  }
 }
 
 resource "azuread_service_principal" "func_app_entra_sp" {
