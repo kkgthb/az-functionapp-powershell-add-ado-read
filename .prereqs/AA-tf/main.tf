@@ -8,6 +8,7 @@ module "web" {
   source = "./modules/web"
   providers = {
     azurerm = azurerm.demo
+    azuread = azuread.demo
   }
   resource_group = {
     id       = azurerm_resource_group.my_resource_group.id

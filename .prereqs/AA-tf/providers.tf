@@ -6,3 +6,9 @@ provider "azurerm" {
   subscription_id                 = var.az_sub_id
   resource_provider_registrations = "none"
 }
+
+# Configure the AzureAD (Entra) provider
+provider "azuread" {
+  alias     = "demo"
+  tenant_id = var.entra_tenant_id
+}
