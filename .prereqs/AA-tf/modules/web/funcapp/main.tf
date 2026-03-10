@@ -53,5 +53,7 @@ resource "azurerm_linux_function_app" "ps_func" {
   }
   app_settings = {
     MICROSOFT_PROVIDER_AUTHENTICATION_SECRET = var.func_entra_appreg_client_secret
+    ENTRA_CLIENT_ID                          = var.func_entra_appreg_client_id
+    ENTRA_TENANT_ID                          = data.azurerm_client_config.current_config.tenant_id
   }
 }
