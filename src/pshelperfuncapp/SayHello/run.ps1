@@ -3,6 +3,7 @@ using namespace System.Net
 param($Request, $TriggerMetadata)
 
 # Short-circuit response content if login not making it to backend
+$adoToken = $Request.Headers["X-MS-TOKEN-AAD-ACCESS-TOKEN"]
 if (-not $adoToken) {
     Push-OutputBinding `
         -Name 'Response' `
