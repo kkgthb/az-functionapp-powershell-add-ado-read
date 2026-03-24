@@ -10,6 +10,7 @@ BeforeAll {
     $tfstate_file = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, '..', '..', '.prereqs', 'AA-tf', 'terraform.tfstate'))
     $azure_function_app_name = (jq -r '.resources[] | select(.module=="module.web.module.funcapp" and .type=="azurerm_linux_function_app" and .name=="ps_func") | .instances[0].attributes.name' $tfstate_file)
     $clientId = (jq -r '.resources[] | select(.module=="module.web.module.entra" and .type=="azuread_application" and .name=="func_app_entra_appreg") | .instances[0].attributes.client_id' $tfstate_file)
+    Write-Host("Dealing with $azure_function_app_name at $clientId")
 
     # Get a token scoped to the EasyAuth app registration so we can call through EasyAuth
     $accessToken = az account get-access-token --resource "api://$clientId" --query 'accessToken' --output 'tsv'
@@ -23,7 +24,7 @@ Describe 'SayHello function' {
             -Headers $script:authHeader `
             -UseBasicParsing
 
-        $response.StatusCode | Should -Be 200
+        $response.StatusCode | Should -Be 200 # Currently 401-ing out
         $response.Content    | Should -Be 'Hello, world!'
     }
 }

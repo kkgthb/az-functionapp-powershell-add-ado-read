@@ -46,6 +46,9 @@ resource "azurerm_linux_function_app" "ps_func" {
       tenant_auth_endpoint       = "https://login.microsoftonline.com/${data.azurerm_client_config.current_config.tenant_id}/v2.0"
       client_secret_setting_name = "MICROSOFT_PROVIDER_AUTHENTICATION_SECRET"
       allowed_audiences          = ["api://${var.func_entra_appreg_client_id}"]
+      login_parameters = {
+        scope = "openid profile email" # Took out 499b84ac-1321-427f-aa17-267ca6975798/user_impersonation from the list
+      }
     }
     login {
       token_store_enabled = true
